@@ -47,7 +47,13 @@
                                     <div class="mb-0">
                                         <b class="mr-2">Total Harga</b> <span id="nota"></span>
                                     </div>
-                                    <span id="total" style="font-size: 80px; line-height: 1" class="text-danger">0</span>
+                                    <span id="total" style="font-size: 80px; line-height: 1" class="text-danger">
+                                        <?php $total_harga = 0; ?>
+                                        <?php foreach ($barang as $item) {
+                                            $total_harga += $item['harga'] * $item['jumlah'];
+                                        }; ?>
+                                        <?= $total_harga; ?>
+                                    </span>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -73,7 +79,7 @@
                                     <td><?= $item['nama'] ?></td>
                                     <td><?= $item['harga'] ?></td>
                                     <td><?= $item['jumlah'] ?></td>
-                                    <td><?= $item['harga'] * $item['jumlah'] ?>.000</td>
+                                    <td><?= $item['harga'] * $item['jumlah'] ?></td>
                                     <td>
                                         <a href="<?= base_url('kasir/delete/' . $item['id']); ?>" class="badge badge-danger">delete</a>
 

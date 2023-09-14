@@ -10,6 +10,7 @@ class Kasir extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('Model_barang');
+        $this->load->library('form_validation');
     }
 
     public function simpanbarang()
@@ -164,7 +165,7 @@ class Kasir extends CI_Controller
         }
     }
 
-    public function laporan()
+    public function laporan($date = '')
     {
         $data['title'] = 'Laporan Pembelian';
         $data['user'] = $this->db->get_where('user', [
@@ -172,6 +173,13 @@ class Kasir extends CI_Controller
             $this->session->userdata('email')
         ])->row_array();
 
+        if ($date == '') {
+            $date = date('Y-m');
+        };
+
+        $data['date'] = $date;
+
+        $data['laporan'] = $this->db->like('tanggal', $date)->get('penjualan')->result_array();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -179,6 +187,11 @@ class Kasir extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+
+    public function filter()
+    {
+        redirect('kasir/laporan/' . $this->input->post('bulan'));
+    }
 
     public function kategorihapus($id)
     {
