@@ -18,6 +18,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
+                    <?= $this->session->flashdata('message') ?>
                     <form action="<?= base_url('kasir/keranjang'); ?>" method="post">
                         <div class="row">
                             <div class="col-sm-6">
@@ -52,7 +53,7 @@
                                         <?php foreach ($barang as $item) {
                                             $total_harga += $item['harga'] * $item['jumlah'];
                                         }; ?>
-                                        <?= $total_harga; ?>
+                                        Rp <span class="price-label"><?= $total_harga; ?></span>
                                     </span>
                                 </div>
                             </div>
@@ -77,18 +78,32 @@
                             <?php foreach ($barang as $item) : ?>
                                 <tr>
                                     <td><?= $item['nama'] ?></td>
-                                    <td><?= $item['harga'] ?></td>
-                                    <td><?= $item['jumlah'] ?></td>
-                                    <td><?= $item['harga'] * $item['jumlah'] ?></td>
                                     <td>
-                                        <a href="<?= base_url('kasir/delete/' . $item['id']); ?>" class="badge badge-danger">delete</a>
-
+                                        Rp <span class="price-label"><?= $item['harga'] ?></span>
+                                    </td>
+                                    <td><?= $item['jumlah'] ?></td>
+                                    <td>
+                                        Rp <span class="price-label"><?= $item['harga'] * $item['jumlah'] ?></span></td>
+                                    <td>
+                                        <a href="<?= base_url('kasir/delete/' . $item['id']); ?>" class="badge badge-danger">Batalkan</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-
+                    <form action="<?= base_url('kasir/checkout'); ?>" method="post">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Jumlah Pembayaran (Rp)</label>
+                                <input name="bayar" type="number" class="form-control" placeholder="Jumlah Pembayaran">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-success">Bayar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div><!-- /.container-fluid -->

@@ -9,43 +9,50 @@
 
 
     <div class="row">
-        <div class="col-lg-6">
-
-            <?= form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
-
-            <?= $this->session->flashdata('message') ?>
-
+        <div class="col">
             <button class="btn btn-primary mb-3" data-toggle="modal" data-target="#newMenuModal">Tambah Kategori Menu</button>
+            <div class="card">
+                <div class="card-header">
+                    Tabel Kategori
+                </div>
+                <div class="card-body">
 
-            <table class="table table-hover" id="table_id">
-                <thead>
-                    <tr>
-                        <th scope="col">NO</th>
-                        <th scope="col">Kategori</th>
-                        <th scope="col">action</th>
+                    <?= form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $i = 1; ?>
-                    <?php foreach ($kategori as $s) : ?>
-                        <tr>
-                            <th scope="row">
-                                <?= $i; ?>
-                            </th>
-                            <td>
-                                <?= $s['kategori']; ?>
-                            </td>
-                            <td>
-                                <button class="badge badge-success" data-toggle="modal" data-target="#modalmanagement<?php echo $s['id']; ?>">edit</button>
-                                <a href="<?php echo base_url('kasir/kategorihapus/') . $s['id']; ?>" class="badge badge-danger">delete</a>
+                    <?= $this->session->flashdata('message') ?>
 
-                            </td>
-                        </tr>
-                        <?php $i++; ?>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+
+                    <table class="table table-hover" id="table_id">
+                        <thead>
+                            <tr>
+                                <th scope="col">NO</th>
+                                <th scope="col">Kategori</th>
+                                <th scope="col">action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; ?>
+                            <?php foreach ($kategori as $s) : ?>
+                                <tr>
+                                    <th scope="row">
+                                        <?= $i; ?>
+                                    </th>
+                                    <td>
+                                        <?= $s['kategori']; ?>
+                                    </td>
+                                    <td>
+                                        <button class="badge badge-success" data-toggle="modal" data-target="#modalmanagement<?php echo $s['id']; ?>">edit</button>
+                                        <a href="<?php echo base_url('kasir/kategorihapus/') . $s['id']; ?>" class="badge badge-danger">delete</a>
+
+                                    </td>
+                                </tr>
+                                <?php $i++; ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

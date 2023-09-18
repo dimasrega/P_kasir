@@ -36,6 +36,12 @@ class Model_barang extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    public function getbarangwherebarang($id)
+    {
+        $query = "SELECT k.id as id, b.id as id_barang, b.nama_barang as nama, b.stok as stok, b.harga as harga, k.jumlah as jumlah FROM keranjang as k JOIN barang_master as b ON b.id = k.id_barang WHERE b.id=$id";
+        return $this->db->query($query)->result_array();
+    }
+
     public function menu_hapus($id)
     {
 

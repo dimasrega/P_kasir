@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-
 class Kasir extends CI_Controller
 {
 
@@ -100,16 +99,23 @@ class Kasir extends CI_Controller
                 'jumlah' => $this->input->post('jumlah')
             );
 
-            $this->db->insert('keranjang', $data);
-
             $get_barang = $this->db->where('id', $this->input->post('id_barang'))->get('barang_master')->result();
             $new_stock = $get_barang[0]->stok - $data['jumlah'];
 
             if ($new_stock < 0) {
-                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
             <i class="fa-solid fa-check-double" style="color: #ffffff;"></i>Stok Habis</div>');
                 redirect('kasir/tempatkasir');
             } else {
+                $check_in_keranjang = $this->Model_barang->getbarangwherebarang($data['id_barang']);
+
+                if ($check_in_keranjang[0] != null) {
+                    $this->db->where('id', $check_in_keranjang[0]['id'])->update('keranjang', [
+                        'jumlah' => $check_in_keranjang[0]['jumlah'] + $data['jumlah']
+                    ]);
+                } else {
+                    $this->db->insert('keranjang', $data);
+                };
                 $this->db->where('id', $get_barang[0]->id)->update('barang_master', [
                     'stok' => $new_stock
                 ]);
@@ -187,7 +193,6 @@ class Kasir extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-
     public function filter()
     {
         redirect('kasir/laporan/' . $this->input->post('bulan'));
@@ -220,5 +225,59 @@ class Kasir extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             edit berhasil.</div>');
         redirect('kasir/kategori');
+    }
+
+    public function checkout()
+    {
+        $this->form_validation->set_rules('bayar', 'bayar', 'required');
+
+        if ($this->form_validation->run() == true) {
+            $total_harga = 0;
+            $daftar_pembelian = '';
+            $keranjang = $this->Model_barang->getbarang();
+            foreach ($keranjang as $item) {
+                $total_harga += ($item['harga'] * $item['jumlah']);
+                $daftar_pembelian .= $item['nama'] . '|';
+            };
+
+            if ($this->input->post('bayar') < $total_harga) {
+                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+                Mohon Maaf Pembayaran Kurang</div>');
+                redirect('kasir/tempatkasir');
+            } else {
+                $this->db->insert('penjualan', [
+                    'daftar_pembelian' => $daftar_pembelian,
+                    'total' => $total_harga,
+                    'bayar' => $this->input->post('bayar'),
+                    'tanggal' => date('Y-m-d H:i:s')
+                ]);
+
+                $this->db->where('id', '!=', null)->delete('keranjang');
+
+                $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+                Transaksi Berhasil</div>');
+                redirect('kasir/laporan');
+            };
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
+            Wajib Mengisi Jumlah Pembayaran</div>');
+            redirect('kasir/tempatkasir');
+        };
+    }
+    public function laporan_pdf()
+    {
+
+        $data = array(
+            "dataku" => array(
+                "nama" => "Petani Kode",
+                "url" => "http://petanikode.com"
+            )
+        );
+
+        $this->load->library('pdf');
+
+        $this->pdf->setPaper('A4', 'potrait');
+        $this->pdf->filename = "laporan-petanikode.pdf";
+        $this->pdf->load_view('kasir/laporan_pdf', $data);
     }
 }

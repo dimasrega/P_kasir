@@ -33,6 +33,7 @@
                                 <th>Total</th>
                                 <th>Pembayaran</th>
                                 <th>Kembali</th>
+                                <th>Ceetak</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,6 +60,9 @@
                                     </td>
                                     <td>
                                         Rp <span class="price-label"><?= $item['bayar'] - $item['total']; ?></span>
+                                    </td>
+                                    <td>
+                                        <a href="<?php echo base_url('kasir/laporan_pdf/'); ?>" class="badge badge-danger">Cetak</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
