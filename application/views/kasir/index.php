@@ -58,8 +58,8 @@
                                         <?= $s['tgl_input'] ?>
                                     </td>
                                     <td>
-                                        <button class="badge badge-success" data-toggle="modal" data-target="#modaledit<?php echo $s['id']; ?>">edit</button>
-                                        <a href="<?php echo base_url('kasir/baranghapus/') . $s['id']; ?>" class="badge badge-danger">delete</a>
+                                        <button class="badge badge-success" data-toggle="modal" data-target="#modaledit<?= $s['id']; ?>">edit</button>
+                                        <a class="badge badge-danger" href="<?php echo base_url('kasir/baranghapus/') . $s['id']; ?>">delete</a>
                                     </td>
                                 </tr>
                                 <?php $i++; ?>

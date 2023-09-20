@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-body">
                     <?= $this->session->flashdata('message') ?>
-                    <table class="table w-100 table-bordered table-hover" id="laporan_penjualan">
+                    <table class="table w-100 table-bordered table-hover" id="table_id">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -33,7 +33,7 @@
                                 <th>Total</th>
                                 <th>Pembayaran</th>
                                 <th>Kembali</th>
-                                <th>Ceetak</th>
+                                <th>Cetak</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,7 +47,7 @@
                                             <?php $items = explode('|', $item['daftar_pembelian']); ?>
                                             <?php foreach ($items as $data) : ?>
                                                 <?php if ($data != '') : ?>
-                                                    <li><?= $data; ?></li>
+                                                    <li><?= explode(':', $data)[0] . ' ' . explode(':', $data)[1]; ?></li>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         </ul>
@@ -62,7 +62,7 @@
                                         Rp <span class="price-label"><?= $item['bayar'] - $item['total']; ?></span>
                                     </td>
                                     <td>
-                                        <a href="<?php echo base_url('kasir/laporan_pdf/'); ?>" class="badge badge-danger">Cetak</a>
+                                        <a href="<?= base_url('kasir/laporan_pdf/' . $item['id']); ?>" class="badge badge-danger">Cetak</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -74,3 +74,13 @@
     </section>
 </div>
 </div>
+
+
+
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+<script>
+    $(function() {
+        $("#table_id").dataTable();
+    });
+</script>

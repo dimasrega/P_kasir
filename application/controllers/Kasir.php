@@ -237,7 +237,7 @@ class Kasir extends CI_Controller
             $keranjang = $this->Model_barang->getbarang();
             foreach ($keranjang as $item) {
                 $total_harga += ($item['harga'] * $item['jumlah']);
-                $daftar_pembelian .= $item['nama'] . '|';
+                $daftar_pembelian .= $item['nama'] . ':' . $item['jumlah'] . '|';
             };
 
             if ($this->input->post('bayar') < $total_harga) {
@@ -252,7 +252,7 @@ class Kasir extends CI_Controller
                     'tanggal' => date('Y-m-d H:i:s')
                 ]);
 
-                $this->db->where('id', '!=', null)->delete('keranjang');
+                $this->db->where('id !=', null)->delete('keranjang');
 
                 $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
                 Transaksi Berhasil</div>');
@@ -264,15 +264,24 @@ class Kasir extends CI_Controller
             redirect('kasir/tempatkasir');
         };
     }
-    public function laporan_pdf()
+    public function laporan_pdf($id)
     {
+        $data = [
+            'id' => $id,
+            "daftar_pembelian" => $this->input->post('daftar_pembelian'),
+            "total" => $this->input->post('total'),
+            "bayar" => $this->input->post('bayar'),
+            "tanggal" => $this->input->post('tanggal'),
+        ];
 
-        $data = array(
-            "dataku" => array(
-                "nama" => "Petani Kode",
-                "url" => "http://petanikode.com"
-            )
-        );
+
+
+        $this->db->where('id', $id);
+        $tes = $this->db->get('penjualan');
+        $data['penjualan'] = $tes->result_array();
+
+        $data['user'] = $this->db->get('user')->row_array();
+
 
         $this->load->library('pdf');
 
