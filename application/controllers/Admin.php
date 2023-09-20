@@ -22,7 +22,12 @@ class Admin extends CI_Controller
 
 
         $data['jmluser'] = $this->db->get('user')->num_rows();
+        $data['penjualan'] = 0;
 
+        $penjualan = $this->db->select('total')->get('penjualan')->result_array();
+        foreach ($penjualan as $report) {
+            $data['penjualan'] += $report['total'];
+        }
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
