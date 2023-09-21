@@ -12,7 +12,7 @@ class Admin extends CI_Controller
         $this->load->model('Admin_model');
     }
 
-    public function index()
+    public function index($date = '')
     {
         $data['title'] = 'Dashboard';
         $data['user'] = $this->db->get_where('user', [
@@ -20,6 +20,12 @@ class Admin extends CI_Controller
             $this->session->userdata('email')
         ])->row_array();
 
+
+        $data['laporan'] = $this->db->like('tanggal', $date)->get('penjualan')->result_array();
+        $data['total'] = 0;
+        foreach ($data['laporan'] as $report) {
+            $data['total'] += $report['total'];
+        };
 
         $data['jmluser'] = $this->db->get('user')->num_rows();
         $data['penjualan'] = 0;

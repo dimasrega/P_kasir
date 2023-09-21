@@ -9,6 +9,14 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card mb-3 p-4">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="form-label">Keuntungan Bulan Ini</label>
+                        <h1 class="display-4 text-success">Rp <span class="price-label"><?= $total; ?></span></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3 p-4">
                 <form action="<?= base_url('kasir/filter') ?>" method="post">
                     <div class="row">
                         <div class="col-md-4">

@@ -186,6 +186,11 @@ class Kasir extends CI_Controller
         $data['date'] = $date;
 
         $data['laporan'] = $this->db->like('tanggal', $date)->get('penjualan')->result_array();
+        $data['total'] = 0;
+        foreach ($data['laporan'] as $report) {
+            $data['total'] += $report['total'];
+        };
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
