@@ -24,3 +24,21 @@ if (price_label != undefined) {
         };
     });
 };
+
+const input_code = document.querySelectorAll('.enter-prevent');
+if (input_code[0] != undefined) {
+    input_code.forEach(input => {
+        input.addEventListener(
+            'keydown', function (e) {
+                if (e.keyCode == '13') {
+                    if (input.classList.contains('punya-kasir')) {
+                        e.preventDefault();
+                        window.location.href = `scan_code/${input.value}`;
+                    } else {
+                        e.preventDefault();
+                    };
+                };
+            }
+        );
+    });
+};

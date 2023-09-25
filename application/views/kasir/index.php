@@ -27,6 +27,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Kode Barang</th>
                                 <th>Nama Menu</th>
                                 <th>Kategori</th>
                                 <th>Harga</th>
@@ -42,6 +43,9 @@
                                     <th scope="row">
                                         <?= $i; ?>
                                     </th>
+                                    <td>
+                                        <?= $s['kode_barang'] ?>
+                                    </td>
                                     <td>
                                         <?= $s['nama_barang'] ?>
                                     </td>
@@ -76,7 +80,7 @@
 
 
 <!-- Modal -->
-<div class="modal modal-blur fade" id="newsubMenuModal" tabindex="-1" aria-labelledby="newsubMenuModalLabel" aria-hidden="true">
+<div class="modal modal-blur fade" data-backdrop="static" id="newsubMenuModal" tabindex="-1" aria-labelledby="newsubMenuModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,6 +88,10 @@
             </div>
             <div class="modal-body">
                 <form action="<?= base_url('Kasir/simpanbarang'); ?>" method="post" class="formbarang">
+                    <div class="mb-3">
+                        <label class="form-label">Kode Barang</label>
+                        <input type="text" class="form-control enter-prevent" name="kode_barang" id="kode_barang" placeholder="Kode barang">
+                    </div>
                     <div class="mb-3">
                         <label class="form-label">Nama Menu</label>
                         <input type="text" class="form-control" name="nama_barang" id="nama_barang" placeholder="Nama menu">
@@ -107,7 +115,7 @@
                         <input type="text" class="form-control" name="stok" id="stok" placeholder="stok">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-solid fa-circle-xmark fa-2lg"></i>Close</button>
+                        <button class="btn btn-secondary" data-dismiss="modal"><i class="fa-solid fa-circle-xmark fa-2lg"></i>Close</button>
                         <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane "></i>Add</button>
                     </div>
                 </form>
@@ -119,7 +127,7 @@
 <!-- Modal edit -->
 <?php $no = 0;
 foreach ($barang_master as $s) : $no++; ?>
-    <div class="modal modal-blur fade" id="modaledit<?= $s['id'] ?>" tabindex="-1" aria-labelledby="modaleditLabel" aria-hidden="true">
+    <div class="modal modal-blur fade" id="modaledit<?= $s['id'] ?>" data-backdrop="static" tabindex="-1" aria-labelledby="modaleditLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -127,6 +135,10 @@ foreach ($barang_master as $s) : $no++; ?>
                 </div>
                 <div class="modal-body">
                     <form action="<?= base_url('kasir/edit_barang/' . $s['id']); ?>" method="post" class="formbarang">
+                        <div class="mb-3">
+                            <label class="form-label">Kode Barang</label>
+                            <input type="text" class="form-control enter-prevent" name="kode_barang" id="kode_barang" placeholder="kode Barang" value="<?= $s['kode_barang']; ?>">
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Nama Menu</label>
                             <input type="text" class="form-control" name="nama_barang" id="nama_barang" placeholder="Nama Barang" value="<?= $s['nama_barang']; ?>">
@@ -149,7 +161,7 @@ foreach ($barang_master as $s) : $no++; ?>
                             </select>
                         </div>
                         <div class=" modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-solid fa-circle-xmark fa-2lg"></i>Close</button>
+                            <button class="btn btn-secondary" data-dismiss="modal"><i class="fa-solid fa-circle-xmark fa-2lg"></i>Close</button>
                             <button type="submit" class="btn btn-primary"><i class="fa-regular fa-paper-plane"></i>update</button>
                         </div>
                     </form>

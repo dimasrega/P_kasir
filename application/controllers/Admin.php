@@ -27,7 +27,7 @@ class Admin extends CI_Controller
             $data['total'] += $report['total'];
         };
 
-        $data['jmluser'] = $this->db->get('user')->num_rows();
+        $data['jmlmenu'] = $this->db->get('barang_master')->num_rows();
         $data['penjualan'] = 0;
 
         $penjualan = $this->db->select('total')->get('penjualan')->result_array();

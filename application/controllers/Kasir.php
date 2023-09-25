@@ -22,10 +22,19 @@ class Kasir extends CI_Controller
 
         $this->load->model('Model_barang', 'getmenu');
 
+
         $data['barang_master'] = $this->getmenu->getmenu();
         $data['kategori'] = $this->db->get('kategori_menu')->result_array();
 
         $this->form_validation->set_rules('nama_barang', 'nama_barang', 'required');
+        $this->form_validation->set_rules(
+            'kode_barang',
+            'kode_barang',
+            'required|is_unique[barang_master.kode_barang]',
+            [
+                'is_unique' => 'Barang ini sudah di registrasikan'
+            ]
+        );
         $this->form_validation->set_rules('harga', 'harga', 'required');
         $this->form_validation->set_rules('menu_id', 'kategori', 'required');
         $this->form_validation->set_rules('stok', 'stok', 'required');
@@ -39,6 +48,7 @@ class Kasir extends CI_Controller
         } else {
             $data = [
                 'nama_barang' => $this->input->post('nama_barang'),
+                'kode_barang' => $this->input->post('kode_barang'),
                 'harga' => $this->input->post('harga'),
                 "menu_id" => $this->input->post('menu_id'),
                 'stok' => $this->input->post('stok')
@@ -49,7 +59,7 @@ class Kasir extends CI_Controller
             redirect('kasir/simpanbarang');
         }
     }
-    public function tempatkasir()
+    public function tempatkasir($id = 0)
     {
         $data['title'] = 'Kasir';
         $data['user'] = $this->db->get_where('user', [
@@ -63,12 +73,26 @@ class Kasir extends CI_Controller
 
         $data['barang_master'] = $this->db->get("barang_master")->result();
 
+        if ($id != 0) {
+            $data['barang_dipilih'] = $this->db->where('id', $id)->get('barang_master')->result_array();
+        };
+
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
             $this->load->view('templates/sidebar', $data);
             $this->load->view('templates/topbar', $data);
             $this->load->view('kasir/kasir', $data);
             $this->load->view('templates/footer');
+        };
+    }
+
+    public function scan_code($kode = 0)
+    {
+        $barang = $this->db->where('kode_barang', $kode)->get('barang_master')->result_array();
+        if (isset($barang)) {
+            redirect('kasir/tempatkasir/' . $barang[0]['id']);
+        } else {
+            redirect('kasir/tempatkasir');
         };
     }
 
@@ -133,6 +157,7 @@ class Kasir extends CI_Controller
     {
         $data = [
             'id' => $id,
+            "kode_barang" => $this->input->post('kode_barang'),
             "nama_barang" => $this->input->post('nama_barang'),
             "harga" => $this->input->post('harga'),
             "menu_id" => $this->input->post('menu_id'),
@@ -289,9 +314,9 @@ class Kasir extends CI_Controller
 
 
         $this->load->library('pdf');
+        $customPaper = array(0, 0, 360, 480);
 
-        $this->pdf->setPaper('A4', 'potrait');
-        $this->pdf->filename = "laporan-petanikode.pdf";
+        $this->pdf->setPaper($customPaper);
         $this->pdf->load_view('kasir/laporan_pdf', $data);
     }
 }

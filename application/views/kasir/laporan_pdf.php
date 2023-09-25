@@ -16,21 +16,23 @@
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
+        .header {
+            text-align: center;
+        }
     </style>
-    <link href="<?= base_url('assets/'); ?>css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
 <body>
-    <h1 class="display-6">
+    <h1 class="header">
         <?= $user['name']; ?>
     </h1>
-    ******************************************
+    <hr>
     <table>
         <thead>
             <tr>
-                <th>Daftar Pembelian</th>
-                <th>quantity</th>
+                <th class="header">Daftar Pembelian</th>
             </tr>
         </thead>
         <tbody>

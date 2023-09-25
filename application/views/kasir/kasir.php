@@ -13,7 +13,6 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -22,15 +21,27 @@
                     <form action="<?= base_url('kasir/keranjang'); ?>" method="post">
                         <div class="row">
                             <div class="col-sm-6">
+                                <?php if (!isset($barang_dipilih)) : ?>
+                                    <div class="form-group">
+                                        <label>Scan Kode Menu</label>
+                                        <input type="text" class="form-control col-sm-6 enter-prevent punya-kasir" placeholder="Scan Barang">
+                                    </div>
+                                <?php endif; ?>
                                 <div class="form-group">
 
-                                    <label>Menu</label>
+                                    <label><?php if (!isset($barang_dipilih)) : ?>Atau Pilih <?php endif; ?>Menu</label>
                                     <div class="form-inline">
                                         <!-- <select id="barcode" class="form-control select2 col-sm-6" value=" <?= $s['nama_barang'] ?>"></select> -->
                                         <select name="id_barang" id="barcode" class="form-control select2 col-sm-6">
-                                            <option selected hidden disabled>Pilih Barang</option>
+                                            <?php if (!isset($barang_dipilih)) : ?>
+                                                <option selected hidden disabled>Pilih Barang</option>
+                                            <?php endif; ?>
                                             <?php foreach ($barang_master as $row) : ?>
-                                                <option value="<?= $row->id ?>"><?= $row->nama_barang ?></option>
+                                                <?php if (isset($barang_dipilih) && $barang_dipilih[0]['id'] == $row->id) : ?>
+                                                    <option selected value="<?= $row->id ?>"><?= $row->nama_barang ?></option>
+                                                <?php else : ?>
+                                                    <option value="<?= $row->id ?>"><?= $row->nama_barang ?></option>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
                                         <span class="ml-3 text-muted" id="nama_produk"></span>
