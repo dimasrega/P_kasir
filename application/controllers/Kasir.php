@@ -304,8 +304,6 @@ class Kasir extends CI_Controller
             "tanggal" => $this->input->post('tanggal'),
         ];
 
-
-
         $this->db->where('id', $id);
         $tes = $this->db->get('penjualan');
         $data['penjualan'] = $tes->result_array();
@@ -318,5 +316,13 @@ class Kasir extends CI_Controller
 
         $this->pdf->setPaper($customPaper);
         $this->pdf->load_view('kasir/laporan_pdf', $data);
+    }
+
+    function barcode_qrcode()
+    {
+        $data['barang_master'] = $this->db->get('barang_master')->result_array();
+
+        $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+        echo $generator->getBarcode(' ', $generator::TYPE_CODE_128);
     }
 }

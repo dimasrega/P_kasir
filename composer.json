@@ -14,7 +14,10 @@
 		"php": ">=5.3.7",
 		"mpdf/mpdf": "^6.1",
 		"dompdf/dompdf": "^2.0",
-		"picqer/php-barcode-generator": "^2.4"
+		"picqer/php-barcode-generator": "^2.4",
+		"endroid/qr-code": "^4.8",
+		"milon/barcode": "^10.0",
+		"simplesoftwareio/simple-qrcode": "^4.2"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
