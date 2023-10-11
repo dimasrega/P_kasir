@@ -16,7 +16,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                        Keuntungan Bulan Ini</div>
+                                        Total Keuntungan Ini</div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">
                                         Rp <span class="price-label"><?= $total; ?></span>
                                     </div>
