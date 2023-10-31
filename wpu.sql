@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 20, 2023 at 03:44 AM
+-- Generation Time: Oct 31, 2023 at 01:04 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -33,18 +33,20 @@ CREATE TABLE `barang_master` (
   `id` int NOT NULL,
   `stok` int NOT NULL,
   `harga` varchar(150) NOT NULL,
-  `menu_id` int NOT NULL
+  `menu_id` int NOT NULL,
+  `kode_barang` varchar(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `barang_master`
 --
 
-INSERT INTO `barang_master` (`nama_barang`, `tgl_input`, `id`, `stok`, `harga`, `menu_id`) VALUES
-('bebek', '2023-09-15 06:50:42', 32, 0, '12000', 2),
-('ayam', '2023-09-15 06:45:57', 31, 6, '12000', 3),
-('AAA', '2023-09-18 03:11:56', 33, 11, '12222', 1),
-('Es teh', '2023-09-19 03:37:41', 34, 0, '3000', 1);
+INSERT INTO `barang_master` (`nama_barang`, `tgl_input`, `id`, `stok`, `harga`, `menu_id`, `kode_barang`) VALUES
+('bebek', '2023-09-15 06:50:42', 32, 0, '12000', 1, '8991389230220'),
+('ayam', '2023-09-15 06:45:57', 31, 5, '12000', 1, '4987176018083'),
+('Es teh', '2023-09-19 03:37:41', 34, 0, '3000', 1, '4991482220061'),
+('babi', '2023-09-22 02:17:42', 35, 0, '12000', 1, '8991389220016'),
+('Ice Land', '2023-10-26 15:43:19', 39, 12, '70000', 10, '8997026930712');
 
 -- --------------------------------------------------------
 
@@ -65,7 +67,7 @@ INSERT INTO `kategori_menu` (`id`, `kategori`) VALUES
 (1, 'Minuman'),
 (2, 'Dessert'),
 (3, 'Makanan berat'),
-(8, 'Minuman berat');
+(10, 'Tequila');
 
 -- --------------------------------------------------------
 
@@ -98,8 +100,13 @@ CREATE TABLE `penjualan` (
 --
 
 INSERT INTO `penjualan` (`id`, `daftar_pembelian`, `total`, `bayar`, `tanggal`) VALUES
-(1, 'Es teh:12|bebek:9|ayam:3|', 180000, 200000, '2023-09-20 03:16:11'),
-(2, 'ayam:2|AAA:1|', 36222, 100000, '2023-09-20 03:39:13');
+(1, 'Es teh:12|bebek:9|ayam:3|', 180000, 200000, '2023-10-11 03:16:11'),
+(2, 'ayam:2|AAA:1|', 36222, 100000, '2023-09-20 03:39:13'),
+(3, 'ayam:1|', 12000, 13000, '2023-09-20 05:28:08'),
+(4, 'AAA:2|', 24444, 30000, '2023-09-21 05:48:54'),
+(5, 'Burung Dimas:1|', 1000, 2000000, '2023-09-22 03:18:06'),
+(6, 'ayam:7|babi:2|', 514000, 600000, '2023-09-22 03:22:45'),
+(7, 'babi:10|', 120000, 120000, '2023-09-27 03:39:22');
 
 -- --------------------------------------------------------
 
@@ -123,9 +130,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `email`, `image`, `password`, `role_id`, `no_telp`, `date_created`) VALUES
-(26, 'Toko Berat', 'admin@gmail.com', 'peakpx.jpg', '$2y$10$D2utQLckESvlORGFcLSw6.7lIYYAujXG6wyQZdc6KemSekKOBZ.n2', 1, '123', '2023-08-25 14:26:27'),
-(34, 'dem', 'dey@gmail.com', 'maria-orlova-bU8TeXhsPcY-unsplash.jpg', '$2y$10$nAYNZk28NnkhEDXdPNGsDOj1.bOCdmkmwVEjKx3fW3Ny8M2zHp2n.', 2, '123', '2023-09-13 12:56:59'),
-(35, 'kasir', 'kasir@gmail.com', 'default.jpg', '$2y$10$dCvqjE/iUbkkd32eH4bP2uodKKUT0rd3eKTp93cw2nKYU2.YCsVUm', 2, '123', '2023-09-13 13:34:56');
+(26, 'Toko purnama', 'admin@gmail.com', 'peakpx.jpg', '$2y$10$D2utQLckESvlORGFcLSw6.7lIYYAujXG6wyQZdc6KemSekKOBZ.n2', 1, '123', '2023-08-25 14:26:27'),
+(37, 'user', 'user@gmail.com', 'default.jpg', '$2y$10$Zty/sLtVgPdMJibflgijbeOlhJXUzI.KBxsZk2dAMe8tN6XuJ9oEO', 2, '0808', '2023-10-30 08:08:26');
 
 -- --------------------------------------------------------
 
@@ -148,8 +154,8 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 (3, 2, 2),
 (10, 1, 8),
 (11, 2, 10),
-(17, 1, 10),
-(19, 1, 2);
+(19, 1, 2),
+(27, 1, 10);
 
 -- --------------------------------------------------------
 
@@ -290,37 +296,37 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT for table `barang_master`
 --
 ALTER TABLE `barang_master`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `kategori_menu`
 --
 ALTER TABLE `kategori_menu`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `user_menu`
